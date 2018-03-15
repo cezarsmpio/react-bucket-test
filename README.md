@@ -1,11 +1,13 @@
 # react-bucket-test
 
-<!-- [![Travis][build-badge]][build] -->
 [![https://nodei.co/npm/react-bucket-test.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/react-bucket-test.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/react-bucket-test)
 
 [![npm package][npm-badge]][npm]
 
-<!-- [![Coveralls][coveralls-badge]][coveralls] -->
+[npm-badge]: https://img.shields.io/npm/v/react-bucket-test.png?style=flat-square
+[npm]: https://www.npmjs.org/package/react-bucket-test
+
+
 
 > Simplifying bucket tests.
 
