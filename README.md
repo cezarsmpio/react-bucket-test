@@ -1,15 +1,22 @@
 # react-bucket-test
 
+
 [![https://nodei.co/npm/react-bucket-test.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/react-bucket-test.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/react-bucket-test)
 
-[![npm package][npm-badge]][npm]
+<!-- badge -->
+[![npm version](https://img.shields.io/npm/v/react-bucket-test.svg)](https://www.npmjs.com/package/react-bucket-test)
+[![npm download](https://img.shields.io/npm/dm/react-bucket-test.svg)](https://www.npmjs.com/package/react-bucket-test)
 
-[npm-badge]: https://img.shields.io/npm/v/react-bucket-test.png?style=flat-square
-[npm]: https://www.npmjs.org/package/react-bucket-test
+[![GitHub stars](https://img.shields.io/github/stars/cezarlz/react-bucket-test.svg?style=social&label=Star)](https://github.com/cezarlz/react-bucket-test)
+[![GitHub issues](https://img.shields.io/github/issues/cezarlz/react-bucket-test.svg)](https://github.com/cezarlz/react-bucket-test/issues)
+[![GitHub contributors](https://img.shields.io/github/contributors/cezarlz/react-bucket-test.svg)](https://GitHub.com/cezarlz/react-bucket-test/graphs/contributors/)
+
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+
+<!-- endbadge -->
 
 
-
-> Simplifying bucket tests.
+> Simplifying experiments with React.
 
 ### :warning: UNDER DEVELOPMENT :warning:
 
