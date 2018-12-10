@@ -25,13 +25,19 @@
     "weighted-random": "^0.1.0"
   },
   "peerDependencies": {
-    "react": "16.x"
+    "react": "16.x",
+    "react-dom": "16.x"
   },
   "devDependencies": {
+    "eslint": "^5.10.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1",
     "gh-pages": "^1.1.0",
     "nwb": "0.21.x",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0"
   },
   "author": "Cezar Luiz",
   "homepage": "https://cezarlz.github.io/react-bucket-test/",

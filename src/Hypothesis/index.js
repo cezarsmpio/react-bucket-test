@@ -6,92 +6,92 @@ class Hypothesis extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.setVariation();
+    // we need to set a variation before rendering
+    if (!this.getVariationName()) {
+      this.setRandomVariation();
+    }
   }
 
   componentDidMount() {
-    this.props.driver.onMount(this.generateDriverOptions());
+    const { driver } = this.props;
+
+    driver.onMount(this.getEventData());
   }
 
   componentWillUnmount() {
-    this.props.driver.onUnmount(this.generateDriverOptions());
+    const { driver } = this.props;
+
+    driver.onUnmount(this.getEventData());
   }
 
-  setVariation = () => {
-    this.variationsCount = Children.count(this.props.children);
-    this.variationName = this.getVariationName();
-    this.variation = this.getVariationElement();
-  };
+  setRandomVariation() {
+    const { driver, name } = this.props;
 
-  generateDriverOptions = (options = {}) => ({
-    category: this.props.name,
-    label: this.variation.props.label,
-    revenueValue: this.variation.props.revenueValue,
-    variation: this.variation,
-    props: this.props,
-    ...options,
-  });
+    const randomVariation = this.pickRandomVariation();
 
-  getVariationName = () => {
-    const name = this.props.driver.get(this.props.name);
+    driver.set(name, randomVariation.props.name);
 
-    if (name) return name;
+    return randomVariation.props.name;
+  }
 
-    const randomVariation = this.pickRandomVariation(this.variationName);
+  getVariationName() {
+    const { driver, name } = this.props;
+    const storedVariation = driver.get(name);
 
-    this.props.driver.set(this.props.name, randomVariation.props.label);
+    return storedVariation;
+  }
 
-    return randomVariation.props.label;
-  };
+  getVariationElement() {
+    const { children } = this.props;
+    let variationName = this.getVariationName();
 
-  getVariationElement = () =>
-    Children.only(
-      this.props.children.find(
-        ({ props }) => props.label === this.variationName,
-      ),
-    );
-
-  getTraffics = () => {
-    const propTraffics = Children.map(
-      this.props.children,
-      child => child.props.traffic,
-    );
-
-    if (
-      !propTraffics.length ||
-      propTraffics.some(traffic => typeof traffic !== 'number')
-    ) {
-      return Array(this.variationsCount).fill(100 / this.variationsCount);
+    if (!variationName) {
+      variationName = this.setRandomVariation();
     }
 
-    return propTraffics;
-  };
+    return Children.only(children.find(({ props }) => props.name === variationName));
+  }
 
-  pickRandomVariation = () => {
-    const traffics = this.getTraffics();
-    const variationIndex = weightedRandom(traffics);
+  getTraffics() {
+    const { children } = this.props;
+    const numberOfVariations = Children.count(children);
+    const traffics = Children.map(children, child => parseFloat(child.props.traffic));
 
-    return Children.only(this.props.children[variationIndex]);
-  };
+    if (traffics.length !== numberOfVariations) {
+      return Array(numberOfVariations).fill(100 / numberOfVariations);
+    }
+
+    return traffics;
+  }
+
+  getEventData() {
+    const { name } = this.props;
+    const variation = this.getVariationElement();
+
+    return {
+      category: name,
+      name: variation.props.name,
+      traffic: variation.props.traffic || null,
+    };
+  }
+
+  pickRandomVariation() {
+    const { children } = this.props;
+    const variationIndex = weightedRandom(this.getTraffics());
+
+    return Children.only(children[variationIndex]);
+  }
 
   render() {
-    const event = {
-      category: this.props.name,
-      label: this.variation.props.label,
-      revenueValue: this.variation.props.revenueValue,
-    };
+    const { driver } = this.props;
+    const variation = this.getVariationElement();
 
-    return React.cloneElement(this.variation, {
+    const event = this.getEventData();
+
+    return React.cloneElement(variation, {
       payload: {
         ...event,
-        registerEvent: (props = {}) =>
-          this.props.driver.registerEvent({ ...event, ...props }),
-        registerClick: (props = {}) =>
-          this.props.driver.registerEvent({
-            ...event,
-            ...props,
-            action: 'click',
-          }),
+        registerEvent: (props = {}) => driver.registerEvent({ ...event, ...props }),
       },
     });
   }
@@ -107,6 +107,7 @@ Hypothesis.propTypes = {
     onUnmount: PropTypes.func.isRequired,
     registerEvent: PropTypes.func.isRequired,
   }).isRequired,
+  children: PropTypes.arrayOf(PropTypes.element).isRequired,
 };
 
 export default Hypothesis;

@@ -1,17 +1,19 @@
-export default {
+const baseDriverOptions = {
   prefix: 'react_bucket_test_',
 
-  get: function(key) {
+  get(key) {
     return localStorage.getItem(`${this.prefix}${key}`);
   },
 
-  set: function(key, value) {
+  set(key, value) {
     return localStorage.setItem(`${this.prefix}${key}`, value);
   },
 
-  onMount: () => {},
+  onMount() {},
 
-  onUnmount: () => {},
+  onUnmount() {},
 
-  registerEvent: () => {},
+  registerEvent() {},
 };
+
+export default baseDriverOptions;

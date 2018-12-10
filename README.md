@@ -41,9 +41,9 @@ yarn add react-bucket-test
 ### Using
 
 ```js
-import Hypothesis, { Variation, GoogleAnalytics } from 'react-bucket-test';
+import Hypothesis, { Variation, GoogleTagManager } from 'react-bucket-test';
 
-const driver = GoogleAnalytics({
+const driver = GoogleTagManager({
   prefix: 'my_cool_prefix_',
 });
 
@@ -51,7 +51,8 @@ const Header = () => (
   <header>
     <Hypothesis name="CTA Button" driver={driver}>
       <Variation
-        label="Control"
+        name="Control"
+        traffic={80}
         render={({ registerEvent }) => (
           <div>
             <button onClick={() => registerEvent({ action: 'click' })}>
@@ -62,7 +63,8 @@ const Header = () => (
       />
 
       <Variation
-        label="Variation"
+        name="Variation"
+        traffic={20}
         render={({ registerEvent }) => (
           <div>
             <button onClick={() => registerEvent({ action: 'click' })}>

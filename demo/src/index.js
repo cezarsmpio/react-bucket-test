@@ -3,13 +3,17 @@ import { render } from 'react-dom';
 import './main.css';
 import Hypothesis from '../../src';
 import Variation from '../../src/Variation';
-import GoogleAnalytics from '../../src/drivers/GoogleAnalytics';
+import GoogleTagManager from '../../src/drivers/GoogleTagManager';
 
-const driver = GoogleAnalytics();
+const driver = GoogleTagManager();
 
 class Demo extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      times: 1,
+    };
 
     const gaScript = document.createElement('script');
     gaScript.src = '//www.googletagmanager.com/gtag/js?id=UA-66499040-5';
@@ -29,46 +33,56 @@ class Demo extends Component {
     document.body.appendChild(gaTextScript);
   }
 
-  state = {
-    times: 1,
-  };
-
   render() {
+    const { times } = this.state;
+
     return (
       <main className="main">
         <h1>React Bucket Test</h1>
 
-        <Hypothesis name="Homepage CTA" driver={driver} key={+new Date()}>
+        <Hypothesis name="Homepage CTA" driver={driver}>
           <Variation
-            label="Control"
+            name="Control"
+            traffic={50}
             render={({ registerEvent }) => (
               <div
+                role="presentation"
                 onClick={() => registerEvent({ action: 'click' })}
                 className="variation variation--control"
               >
-                Control | {this.state.times}
+                Control |
+                {' '}
+                {times}
               </div>
             )}
           />
           <Variation
-            label="Variation"
+            name="Variation"
+            traffic={25}
             render={({ registerEvent }) => (
               <div
+                role="presentation"
                 onClick={() => registerEvent({ action: 'click' })}
                 className="variation variation--one"
               >
-                Variation One | {this.state.times}
+                Variation One |
+                {' '}
+                {times}
               </div>
             )}
           />
           <Variation
-            label="Variation 2"
+            name="Variation 2"
+            traffic={25}
             render={({ registerEvent }) => (
               <div
+                role="presentation"
                 onClick={() => registerEvent({ action: 'click' })}
                 className="variation variation--two"
               >
-                Variation Two | {this.state.times}
+                Variation Two |
+                {' '}
+                {times}
               </div>
             )}
           >
@@ -91,7 +105,7 @@ class Demo extends Component {
               localStorage.clear();
 
               this.setState({
-                times: this.state.times + 1,
+                times: times + 1,
               });
             }}
           >
