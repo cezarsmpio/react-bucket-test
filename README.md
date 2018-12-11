@@ -1,9 +1,9 @@
 # react-bucket-test
 
-
 [![https://nodei.co/npm/react-bucket-test.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/react-bucket-test.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/react-bucket-test)
 
 <!-- badge -->
+
 [![npm version](https://img.shields.io/npm/v/react-bucket-test.svg)](https://www.npmjs.com/package/react-bucket-test)
 [![npm download](https://img.shields.io/npm/dm/react-bucket-test.svg)](https://www.npmjs.com/package/react-bucket-test)
 
@@ -13,8 +13,9 @@
 
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
 
-<!-- endbadge -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
+<!-- endbadge -->
 
 > Simplifying experiments with React.
 
@@ -44,7 +45,7 @@ yarn add react-bucket-test
 import Hypothesis, { Variation, GoogleTagManager } from 'react-bucket-test';
 
 const driver = GoogleTagManager({
-  prefix: 'my_cool_prefix_',
+  prefix: 'my_cool_prefix_'
 });
 
 const Header = () => (
@@ -80,19 +81,121 @@ const Header = () => (
 
 That's it!
 
-### API
+## Components
 
-To be defined. Good things are coming!
+### `<Hypothesis>`
 
-### Creating your own drivers
+```js
+const driver = myCustomDriver();
 
-To be defined. Awesome things are coming!
+const HeroBanner = () => (
+  <Hypothesis name="Homepage Hero Banner with Video" driver={driver}>
+    ...
+  </Hypothesis>
+);
+```
 
-### Contributors
+This is the container for your tests, that's the component that will read and set your variations, dispatch the events to the driver, all logic is here. It accepts only `<Variation>` as children.
 
-To be defined.
+#### `name`: string - required
 
-### A/B tests explanation
+It passes this value to the driver. It is an id like for your tests. It's better to have unique names for each hypothesis.
+
+#### `driver`: object - required
+
+This library provides some drivers, such as Google Tag Manager (more are coming). Drivers must follow an interface, you can check the section to create your own drivers.
+
+### `<Variation>`
+
+```js
+<Variation
+  name="Video with cats"
+  traffic={50}
+  render={({ registerEvent }) => (
+    <HeroWithVideo
+      video="cats.mp4"
+      onPlay={() => registerEvent({ action: 'play', category: 'cats' })}
+    />
+  )}
+/>
+```
+
+#### `name`: string - required
+
+#### `traffic`: number
+
+You can specify how to split the traffic of your tests. It must be a number. If you don't specify a traffic, it will split the traffic automatically through your variations equally. If you have 4 variations and the traffic is not specified, the traffic will be split into 25% for each variation.
+
+**If you specify a traffic for one variation, you must specify for all of your variations.**
+
+It uses weights, not percentage. This means you can use for example, 2, 1, 1 instead of 50, 25, 25.
+
+#### `render`: ({ registerEvent: func, category: string, name: string, traffic: number | null }) => Component
+
+To render your component. It passes down the following parameters:
+
+* `registerEvent`: function - it accepts an object of any property as parameter, the driver will receive this object.
+* `category`: string - the hypothesis name.
+* `name`: string - the variation name.
+* `traffic`: number - the variation traffic.
+
+## Creating your own drivers
+
+Drivers are used to register the events to a tracking tool, such as Google Tag Manager. You can pass any driver to the `<Hypothesis>` component. This library provides drivers for the following tracking tools:
+
+* Google Tag Manager
+
+To create your own driver, you just need to create an object with the following properties:
+
+#### `prefix`: string
+
+Default: `react_bucket_test_`
+
+It's useful to create a namespace for your application.
+
+#### `get`: (key: string) => string
+
+Default: `localStorage.getItem`
+
+Used by `<Hypothesis>` to render the correct variation.
+
+#### `set`: (key: string, value: string) => void
+
+Default: `localStorage.setItem`
+
+Used by `<Hypothesis>` to set a variation in case if none exists.
+
+#### `onMount`: ({ category: string, name: string, traffic: number | null }) => any
+#### `onUnmount`: ({ category: string, name: string, traffic: number | null }) => any
+
+`onMount` is called by `<Hypothesis>` when `componentDidMount`.
+`onUnmount` is called by `<Hypothesis>` when `componentWillUnmount`.
+
+* `category`: string - the hypothesis name.
+* `name`: string - the variation name.
+* `traffic`: number - the variation traffic.
+
+#### `registerEvent`: (props: object) => any
+
+That's the method that your `<Variation>` receives when rendered.
+
+`props` receives at least:
+
+* `category`: string - the hypothesis name.
+* `name`: string - the variation name.
+* `traffic`: number - the variation traffic.
+
+**You will override these properties if you pass properties with those names.**
+
+## Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+| [<img src="https://avatars3.githubusercontent.com/u/954889?v=4" width="100px;"/><br /><sub><b>Cezar Luiz</b></sub>](http://twitter.com/cezarlz)<br />[🐛](https://github.com/cezarlz/react-bucket-test/issues?q=author%3Acezarlz "Bug reports") [💻](https://github.com/cezarlz/react-bucket-test/commits?author=cezarlz "Code") [📖](https://github.com/cezarlz/react-bucket-test/commits?author=cezarlz "Documentation") [🤔](#ideas-cezarlz "Ideas, Planning, & Feedback") [🚇](#infra-cezarlz "Infrastructure (Hosting, Build-Tools, etc)") [📦](#platform-cezarlz "Packaging/porting to new platform") [🔌](#plugin-cezarlz "Plugin/utility libraries") [👀](#review-cezarlz "Reviewed Pull Requests") [⚠️](https://github.com/cezarlz/react-bucket-test/commits?author=cezarlz "Tests") [🔧](#tool-cezarlz "Tools") |
+| :---: |
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+## A/B tests explanation
 
 To be defined.
 
