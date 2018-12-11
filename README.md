@@ -6,24 +6,21 @@
 
 [![npm version](https://img.shields.io/npm/v/react-bucket-test.svg)](https://www.npmjs.com/package/react-bucket-test)
 [![npm download](https://img.shields.io/npm/dm/react-bucket-test.svg)](https://www.npmjs.com/package/react-bucket-test)
-
 [![GitHub stars](https://img.shields.io/github/stars/cezarlz/react-bucket-test.svg?style=social&label=Star)](https://github.com/cezarlz/react-bucket-test)
 [![GitHub issues](https://img.shields.io/github/issues/cezarlz/react-bucket-test.svg)](https://github.com/cezarlz/react-bucket-test/issues)
 [![GitHub contributors](https://img.shields.io/github/contributors/cezarlz/react-bucket-test.svg)](https://GitHub.com/cezarlz/react-bucket-test/graphs/contributors/)
-
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
-
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
 <!-- endbadge -->
 
 > Simplifying experiments with React.
 
-### :warning: UNDER DEVELOPMENT :warning:
-
 ## What's a "bucket test"?
 
 > Bucket testing (sometimes referred to as A/B testing or split testing) is a term used to describe the method testing two versions of a website against one another to see which one performs better on specified key metrics (such as clicks, downloads or purchases).
+
+[A/B testing on Wikipedia](https://en.m.wikipedia.org/wiki/A/B_testing)
 
 ## Installing
 
@@ -134,16 +131,16 @@ It uses weights, not percentage. This means you can use for example, 2, 1, 1 ins
 
 To render your component. It passes down the following parameters:
 
-* `registerEvent`: function - it accepts an object of any property as parameter, the driver will receive this object.
-* `category`: string - the hypothesis name.
-* `name`: string - the variation name.
-* `traffic`: number - the variation traffic.
+- `registerEvent`: function - it accepts an object of any property as parameter, the driver will receive this object.
+- `category`: string - the hypothesis name.
+- `name`: string - the variation name.
+- `traffic`: number - the variation traffic.
 
 ## Creating your own drivers
 
 Drivers are used to register the events to a tracking tool, such as Google Tag Manager. You can pass any driver to the `<Hypothesis>` component. This library provides drivers for the following tracking tools:
 
-* Google Tag Manager
+- Google Tag Manager
 
 To create your own driver, you just need to create an object with the following properties:
 
@@ -166,14 +163,16 @@ Default: `localStorage.setItem`
 Used by `<Hypothesis>` to set a variation in case if none exists.
 
 #### `onMount`: ({ category: string, name: string, traffic: number | null }) => any
+
 #### `onUnmount`: ({ category: string, name: string, traffic: number | null }) => any
 
 `onMount` is called by `<Hypothesis>` when `componentDidMount`.
+
 `onUnmount` is called by `<Hypothesis>` when `componentWillUnmount`.
 
-* `category`: string - the hypothesis name.
-* `name`: string - the variation name.
-* `traffic`: number - the variation traffic.
+- `category`: string - the hypothesis name.
+- `name`: string - the variation name.
+- `traffic`: number - the variation traffic.
 
 #### `registerEvent`: (props: object) => any
 
@@ -181,11 +180,34 @@ That's the method that your `<Variation>` receives when rendered.
 
 `props` receives at least:
 
-* `category`: string - the hypothesis name.
-* `name`: string - the variation name.
-* `traffic`: number - the variation traffic.
+- `category`: string - the hypothesis name.
+- `name`: string - the variation name.
+- `traffic`: number - the variation traffic.
 
 **You will override these properties if you pass properties with those names.**
+
+[Check all drivers we support.](https://github.com/cezarlz/react-bucket-test/tree/master/src/drivers)
+
+### Google Tag Manager
+
+It uses `dataLayer` variable to publish events to GTM.
+
+Default:
+
+- `prefix`: 'react_bucket_test_gtm_'
+- `onMount`: `{ action: 'load', ...props }`
+- `onUnmount`: `{ action: 'unmount', ...props }`
+- `registerEvent`: `{ action: 'registerEvent', ...props }`
+
+You can override any property:
+
+```js
+const driver = GoogleTagManager({
+  prefix: 'experiment_',
+});
+```
+
+![GTM Example](https://user-images.githubusercontent.com/954889/49771079-95b61200-fcce-11e8-9091-f4117d6e05d4.png)
 
 ## Contributors
 
@@ -193,11 +215,8 @@ That's the method that your `<Variation>` receives when rendered.
 <!-- prettier-ignore -->
 | [<img src="https://avatars3.githubusercontent.com/u/954889?v=4" width="100px;"/><br /><sub><b>Cezar Luiz</b></sub>](http://twitter.com/cezarlz)<br />[🐛](https://github.com/cezarlz/react-bucket-test/issues?q=author%3Acezarlz "Bug reports") [💻](https://github.com/cezarlz/react-bucket-test/commits?author=cezarlz "Code") [📖](https://github.com/cezarlz/react-bucket-test/commits?author=cezarlz "Documentation") [🤔](#ideas-cezarlz "Ideas, Planning, & Feedback") [🚇](#infra-cezarlz "Infrastructure (Hosting, Build-Tools, etc)") [📦](#platform-cezarlz "Packaging/porting to new platform") [🔌](#plugin-cezarlz "Plugin/utility libraries") [👀](#review-cezarlz "Reviewed Pull Requests") [⚠️](https://github.com/cezarlz/react-bucket-test/commits?author=cezarlz "Tests") [🔧](#tool-cezarlz "Tools") |
 | :---: |
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-
-## A/B tests explanation
-
-To be defined.
 
 ---
 
