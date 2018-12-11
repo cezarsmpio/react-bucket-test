@@ -5,6 +5,7 @@ function Variation({ render, payload }) {
 }
 
 Variation.propTypes = {
+  name: PropTypes.string.isRequired,
   render: PropTypes.func.isRequired,
   traffic: PropTypes.number,
   payload: PropTypes.shape({}),
