@@ -12,12 +12,6 @@ function sendEvent(props = {}) {
 export default function GoogleTagManager(options = {}) {
   const defaultOptions = {
     prefix: 'react_bucket_test_gtm_',
-  };
-
-  return {
-    ...base,
-    ...defaultOptions,
-    ...options,
 
     onMount(props = {}) {
       sendEvent({
@@ -39,5 +33,11 @@ export default function GoogleTagManager(options = {}) {
         ...props,
       });
     },
+  };
+
+  return {
+    ...base,
+    ...defaultOptions,
+    ...options,
   };
 }
