@@ -202,6 +202,9 @@ Default:
 You can override any property:
 
 ```js
+// drivers are not included to the final bundle size
+import GoogleTagManager from 'react-bucket-test/lib/drivers/GoogleTagManager';
+
 const driver = GoogleTagManager({
   prefix: 'experiment_'
 });
