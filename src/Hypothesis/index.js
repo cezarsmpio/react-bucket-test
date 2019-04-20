@@ -1,6 +1,6 @@
 import React, { Children } from 'react';
 import PropTypes from 'prop-types';
-import weightedRandom from 'weighted-random';
+import weightedRandomIndex from '../utils/weighted-random';
 
 class Hypothesis extends React.PureComponent {
   constructor(props) {
@@ -49,13 +49,17 @@ class Hypothesis extends React.PureComponent {
       variationName = this.setRandomVariation();
     }
 
-    return Children.only(children.find(({ props }) => props.name === variationName));
+    return Children.only(
+      children.find(({ props }) => props.name === variationName)
+    );
   }
 
   getTraffics() {
     const { children } = this.props;
     const numberOfVariations = Children.count(children);
-    const traffics = Children.map(children, child => parseFloat(child.props.traffic));
+    const traffics = Children.map(children, child =>
+      parseFloat(child.props.traffic)
+    );
 
     if (traffics.length !== numberOfVariations) {
       return Array(numberOfVariations).fill(100 / numberOfVariations);
@@ -71,13 +75,13 @@ class Hypothesis extends React.PureComponent {
     return {
       category: name,
       name: variation.props.name,
-      traffic: variation.props.traffic || null,
+      traffic: variation.props.traffic || null
     };
   }
 
   pickRandomVariation() {
     const { children } = this.props;
-    const variationIndex = weightedRandom(this.getTraffics());
+    const variationIndex = weightedRandomIndex(this.getTraffics());
 
     return Children.only(children[variationIndex]);
   }
@@ -91,8 +95,9 @@ class Hypothesis extends React.PureComponent {
     return React.cloneElement(variation, {
       payload: {
         ...event,
-        registerEvent: (props = {}) => driver.registerEvent({ ...event, ...props }),
-      },
+        registerEvent: (props = {}) =>
+          driver.registerEvent({ ...event, ...props })
+      }
     });
   }
 }
@@ -105,9 +110,9 @@ Hypothesis.propTypes = {
     set: PropTypes.func.isRequired,
     onMount: PropTypes.func.isRequired,
     onUnmount: PropTypes.func.isRequired,
-    registerEvent: PropTypes.func.isRequired,
+    registerEvent: PropTypes.func.isRequired
   }).isRequired,
-  children: PropTypes.arrayOf(PropTypes.element).isRequired,
+  children: PropTypes.arrayOf(PropTypes.element).isRequired
 };
 
 export default Hypothesis;

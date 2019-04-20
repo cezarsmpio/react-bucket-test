@@ -1,6 +1,6 @@
 {
   "name": "react-bucket-test",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Simplifying experiments with React.",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -14,26 +14,26 @@
     "build": "nwb build-react-component",
     "clean": "nwb clean-module && nwb clean-demo",
     "start": "NODE_ENV=development nwb serve-react-demo",
-    "test": "nwb test-react",
-    "test:coverage": "nwb test-react --coverage",
-    "test:watch": "nwb test-react --server",
+    "test": "ava",
     "prepare": "npm run build",
     "deploy": "gh-pages -d demo/dist"
   },
   "dependencies": {
-    "prop-types": "^15.7.2",
-    "weighted-random": "^0.1.0"
+    "prop-types": "^15.7.2"
   },
   "peerDependencies": {
     "react": "16.8.x",
     "react-dom": "16.8.x"
   },
   "devDependencies": {
+    "ava": "^1.4.1",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-import": "^2.17.2",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
+    "esm": "^3.2.22",
     "gh-pages": "^2.0.1",
     "nwb": "0.23.x",
     "react": "^16.8.6",
@@ -50,5 +50,13 @@
     "test",
     "react",
     "split test"
-  ]
+  ],
+  "ava": {
+    "files": [
+      "tests/**/*.test.js"
+    ],
+    "require": [
+      "esm"
+    ]
+  }
 }
