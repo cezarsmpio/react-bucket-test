@@ -10,7 +10,6 @@
 [![GitHub issues](https://img.shields.io/github/issues/cezarlz/react-bucket-test.svg)](https://github.com/cezarlz/react-bucket-test/issues)
 [![GitHub contributors](https://img.shields.io/github/contributors/cezarlz/react-bucket-test.svg)](https://GitHub.com/cezarlz/react-bucket-test/graphs/contributors/)
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
 <!-- endbadge -->
 
@@ -208,15 +207,6 @@ const driver = GoogleTagManager({
 ```
 
 ![GTM Example](https://user-images.githubusercontent.com/954889/49771079-95b61200-fcce-11e8-9091-f4117d6e05d4.png)
-
-## Contributors
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore -->
-| [<img src="https://avatars3.githubusercontent.com/u/954889?v=4" width="100px;"/><br /><sub><b>Cezar Luiz</b></sub>](http://twitter.com/cezarlz)<br />[🐛](https://github.com/cezarlz/react-bucket-test/issues?q=author%3Acezarlz "Bug reports") [💻](https://github.com/cezarlz/react-bucket-test/commits?author=cezarlz "Code") [📖](https://github.com/cezarlz/react-bucket-test/commits?author=cezarlz "Documentation") [🤔](#ideas-cezarlz "Ideas, Planning, & Feedback") [🚇](#infra-cezarlz "Infrastructure (Hosting, Build-Tools, etc)") [📦](#platform-cezarlz "Packaging/porting to new platform") [🔌](#plugin-cezarlz "Plugin/utility libraries") [👀](#review-cezarlz "Reviewed Pull Requests") [⚠️](https://github.com/cezarlz/react-bucket-test/commits?author=cezarlz "Tests") [🔧](#tool-cezarlz "Tools") |
-| :---: |
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ---
 
