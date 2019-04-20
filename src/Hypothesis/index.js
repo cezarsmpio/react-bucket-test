@@ -1,105 +1,86 @@
-import React, { Children } from 'react';
+import React, { Children, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import weightedRandomIndex from '../utils/weighted-random';
 
-class Hypothesis extends React.PureComponent {
-  constructor(props) {
-    super(props);
+function getTraffics(children) {
+  const numberOfVariations = Children.count(children);
+  const traffics = Children.map(children, child =>
+    parseFloat(child.props.traffic)
+  );
 
-    // we need to set a variation before rendering
-    if (!this.getVariationName()) {
-      this.setRandomVariation();
-    }
+  if (traffics.length !== numberOfVariations) {
+    return Array(numberOfVariations).fill(100 / numberOfVariations);
   }
 
-  componentDidMount() {
-    const { driver } = this.props;
+  return traffics;
+}
 
-    driver.onMount(this.getEventData());
+function pickRandomVariation(children) {
+  const variationIndex = weightedRandomIndex(getTraffics(children));
+
+  return Children.only(children[variationIndex]);
+}
+
+function getVariationName(driver, name) {
+  const storedVariation = driver.get(name);
+
+  return storedVariation;
+}
+
+function setRandomVariation(children, driver, name) {
+  const randomVariation = pickRandomVariation(children);
+
+  driver.set(name, randomVariation.props.name);
+
+  return randomVariation.props.name;
+}
+
+function getVariationElement(children, driver, name) {
+  let variationName = driver.get(name);
+
+  if (!variationName) {
+    variationName = setRandomVariation(children, driver, name);
   }
 
-  componentWillUnmount() {
-    const { driver } = this.props;
+  return Children.only(
+    children.find(child => child.props.name === variationName)
+  );
+}
 
-    driver.onUnmount(this.getEventData());
+function getEventData(children, driver, name) {
+  const variation = getVariationElement(children, driver, name);
+
+  return {
+    category: name,
+    name: variation.props.name,
+    traffic: variation.props.traffic || null
+  };
+}
+
+function Hypothesis(props) {
+  const { driver, children, name } = props;
+  const eventData = getEventData(children, driver, name);
+
+  // we need to set a variation before rendering
+  if (!getVariationName(driver, name)) {
+    setRandomVariation(children, driver, name);
   }
 
-  setRandomVariation() {
-    const { driver, name } = this.props;
+  useEffect(function() {
+    driver.onMount(eventData);
 
-    const randomVariation = this.pickRandomVariation();
-
-    driver.set(name, randomVariation.props.name);
-
-    return randomVariation.props.name;
-  }
-
-  getVariationName() {
-    const { driver, name } = this.props;
-    const storedVariation = driver.get(name);
-
-    return storedVariation;
-  }
-
-  getVariationElement() {
-    const { children } = this.props;
-    let variationName = this.getVariationName();
-
-    if (!variationName) {
-      variationName = this.setRandomVariation();
-    }
-
-    return Children.only(
-      children.find(({ props }) => props.name === variationName)
-    );
-  }
-
-  getTraffics() {
-    const { children } = this.props;
-    const numberOfVariations = Children.count(children);
-    const traffics = Children.map(children, child =>
-      parseFloat(child.props.traffic)
-    );
-
-    if (traffics.length !== numberOfVariations) {
-      return Array(numberOfVariations).fill(100 / numberOfVariations);
-    }
-
-    return traffics;
-  }
-
-  getEventData() {
-    const { name } = this.props;
-    const variation = this.getVariationElement();
-
-    return {
-      category: name,
-      name: variation.props.name,
-      traffic: variation.props.traffic || null
+    return function() {
+      driver.onUnmount(eventData);
     };
-  }
+  }, []);
 
-  pickRandomVariation() {
-    const { children } = this.props;
-    const variationIndex = weightedRandomIndex(this.getTraffics());
+  const variation = getVariationElement(children, driver, name);
 
-    return Children.only(children[variationIndex]);
-  }
-
-  render() {
-    const { driver } = this.props;
-    const variation = this.getVariationElement();
-
-    const event = this.getEventData();
-
-    return React.cloneElement(variation, {
-      payload: {
-        ...event,
-        registerEvent: (props = {}) =>
-          driver.registerEvent({ ...event, ...props })
-      }
-    });
-  }
+  return React.cloneElement(variation, {
+    ...eventData,
+    registerEvent: (registerEventProps = {}) =>
+      driver.registerEvent({ ...eventData, ...registerEventProps })
+  });
 }
 
 Hypothesis.propTypes = {
