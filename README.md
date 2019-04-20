@@ -4,6 +4,7 @@
 
 <!-- badge -->
 
+[![minified + gzip](https://badgen.net/bundlephobia/minzip/react-bucket-test)](https://bundlephobia.com/result?p=react-bucket-test)
 [![npm version](https://img.shields.io/npm/v/react-bucket-test.svg)](https://www.npmjs.com/package/react-bucket-test)
 [![npm download](https://img.shields.io/npm/dm/react-bucket-test.svg)](https://www.npmjs.com/package/react-bucket-test)
 [![GitHub stars](https://img.shields.io/github/stars/cezarlz/react-bucket-test.svg?style=social&label=Star)](https://github.com/cezarlz/react-bucket-test)
@@ -193,7 +194,7 @@ It uses `dataLayer` variable to publish events to GTM.
 
 Default:
 
-- `prefix`: 'react_bucket_test_gtm_'
+- `prefix`: 'react*bucket_test_gtm*'
 - `onMount`: `{ action: 'load', ...props }`
 - `onUnmount`: `{ action: 'unmount', ...props }`
 - `registerEvent`: `{ action: 'registerEvent', ...props }`
@@ -202,7 +203,7 @@ You can override any property:
 
 ```js
 const driver = GoogleTagManager({
-  prefix: 'experiment_',
+  prefix: 'experiment_'
 });
 ```
 
