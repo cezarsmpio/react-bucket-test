@@ -1,18 +1,18 @@
+import React, { Fragment } from 'react'; //
 import PropTypes from 'prop-types';
 
-function Variation({ render, payload }) {
-  return render({ ...payload });
+function Variation({ render, ...props }) {
+  return <Fragment>{render({ ...props })}</Fragment>;
 }
 
 Variation.propTypes = {
   name: PropTypes.string.isRequired,
   render: PropTypes.func.isRequired,
-  traffic: PropTypes.number,
-  payload: PropTypes.shape({}),
+  traffic: PropTypes.number
 };
 
 Variation.defaultProps = {
-  payload: {},
+  traffic: 0
 };
 
 export default Variation;
