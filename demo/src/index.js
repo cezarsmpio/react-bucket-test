@@ -12,7 +12,7 @@ class Demo extends Component {
     super(props);
 
     this.state = {
-      times: 1,
+      times: 1
     };
 
     const gaScript = document.createElement('script');
@@ -50,9 +50,7 @@ class Demo extends Component {
                 onClick={() => registerEvent({ action: 'click' })}
                 className="variation variation--control"
               >
-                Control |
-                {' '}
-                {times}
+                Control | {times}
               </div>
             )}
           />
@@ -65,9 +63,7 @@ class Demo extends Component {
                 onClick={() => registerEvent({ action: 'click' })}
                 className="variation variation--one"
               >
-                Variation One |
-                {' '}
-                {times}
+                Variation One | {times}
               </div>
             )}
           />
@@ -80,9 +76,7 @@ class Demo extends Component {
                 onClick={() => registerEvent({ action: 'click' })}
                 className="variation variation--two"
               >
-                Variation Two |
-                {' '}
-                {times}
+                Variation Two | {times}
               </div>
             )}
           >
@@ -105,7 +99,7 @@ class Demo extends Component {
               localStorage.clear();
 
               this.setState({
-                times: times + 1,
+                times: times + 1
               });
             }}
           >
