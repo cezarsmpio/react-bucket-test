@@ -39,7 +39,8 @@ yarn add react-bucket-test
 ### Using
 
 ```js
-import Hypothesis, { Variation, GoogleTagManager } from 'react-bucket-test';
+import Hypothesis, { Variation } from 'react-bucket-test';
+import GoogleTagManager from 'react-bucket-test/lib/drivers/GoogleTagManager';
 
 const driver = GoogleTagManager({
   prefix: 'my_cool_prefix_'
