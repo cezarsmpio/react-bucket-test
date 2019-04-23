@@ -2,8 +2,12 @@ function sum(prev, curr) {
   return prev + curr;
 }
 
+function isNumber(number) {
+  return typeof number === 'number';
+}
+
 function hasOnlyNumbers(arr) {
-  return arr.every(Number.isInteger);
+  return arr.every(isNumber);
 }
 
 /**

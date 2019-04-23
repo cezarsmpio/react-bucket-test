@@ -5,6 +5,10 @@ test('should return -1 when giving an empty list', t => {
   t.is(weightedRandomIndex([]), -1);
 });
 
+test('should not throw an error when passing float numbers', t => {
+  t.notThrows(() => weightedRandomIndex([3.5, 2.3, 9.0]));
+});
+
 test('should return -1 when giving no weights', t => {
   t.is(weightedRandomIndex([0, 0]), -1);
 });
