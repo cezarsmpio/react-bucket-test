@@ -1,6 +1,6 @@
 {
   "name": "react-bucket-test",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Simplifying experiments with React.",
   "main": "lib/index.js",
   "module": "es/index.js",
